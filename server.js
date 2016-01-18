@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 
 var port     = process.env.PORT || 8080; // set our port
 
+// Set up the mongoDB connection
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/people');
 var Person     = require('./models/person');
