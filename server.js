@@ -89,23 +89,42 @@ router.route('/people/:person_id')
 		});
 	})
 
-	// update the bear with this id
-	.put(function(req, res) {
-		Person.findById(req.params.person_id, function(err, person) {
+  // update the bear with this id (accessed at PUT http://localhost:8080/api/bears/:bear_id)
+  .put(function(req, res) {
 
-			if (err)
-				res.send(err);
+      // use our bear model to find the bear we want
+      Person.findById(req.params.person_id, function(err, person) {
 
-			person.name = req.body.name;
-			person.save(function(err) {
-				if (err)
-					res.send(err);
+          if (err)
+              res.send(err);
+          if (req.body.firstName)
+              person.firstName = req.body.firstName;
+          if (req.body.lastName)
+            person.lastName = req.body.lastName;
+          if (req.body.gender)
+            person.gender = req.body.songPersonal;
+          if (req.body.firstName)
+            person.songPersonal = req.body.songPersonal;
+          if (req.body.songWeds)
+            person.songWeds = req.body.songWeds;
+          if (req.body.email)
+            person.email  = req.body.email;
+          if (req.body.attendance)
+            person.attendance = req.body.attendance;
+          if (req.body.foodPref)
+            person.foodPref  = req.body.foodPref;       // enum
 
-				res.json({ message: 'Person updated!' });
-			});
+          // save the Person's updated details
+          person.save(function(err) {
+              if (err)
+                  res.send(err);
 
-		});
-	})
+              res.json({ message: 'Person updated!' });
+          });
+
+      });
+  })
+
 
 	// delete the bear with this id
 	.delete(function(req, res) {
