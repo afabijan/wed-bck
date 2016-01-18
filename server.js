@@ -20,14 +20,18 @@ app.use(bodyParser.json());
 var port     = process.env.PORT || 8080; // set our port
 
 // Set up the mongoDB connection
-var mongoose   = require('mongoose');
+mongoose   = require('mongoose');
 var uriUtil = require('mongodb-uri');
 var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
                 replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } },  };
-                
-// read the params from a credentials file
-u = configParams.mongoDBusername;
-p = configParams.mongoDBpassword;
+
+// read the params from a credentials file OR when using HEROKU use the .env
+//u = configParams.mongoDBusername;
+//p = configParams.mongoDBpassword;
+u = process.env.MONUSER;
+p = process.env.MONPWD;
+
+
 
 var mongodbUri = 'mongodb://'.concat(u).concat(':').concat(p).concat('@ds055832.mongolab.com:55832/wedding');
 var mongooseUri = uriUtil.formatMongoose(mongodbUri);

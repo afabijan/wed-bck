@@ -39,3 +39,4 @@ Thumbs.db
 .gitignore
 node_modules/
 credentials.json
+.env
