@@ -10,6 +10,9 @@ var app        = express();
 // configure app
 //app.use(morgan('dev')); // log requests to the console
 
+//Read the config and credentials locally
+var configParams = require('./credentials.json');
+
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -18,7 +21,24 @@ var port     = process.env.PORT || 8080; // set our port
 
 // Set up the mongoDB connection
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/people');
+var uriUtil = require('mongodb-uri');
+var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
+                replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } },  };
+                
+// read the params from a credentials file
+u = configParams.mongoDBusername;
+p = configParams.mongoDBpassword;
+
+var mongodbUri = 'mongodb://'.concat(u).concat(':').concat(p).concat('@ds055832.mongolab.com:55832/wedding');
+var mongooseUri = uriUtil.formatMongoose(mongodbUri);
+mongoose.connect(mongooseUri, options);
+var conn = mongoose.connection;
+
+conn.on('error', console.error.bind(console, 'connection error:'));
+
+conn.once('open', function() {
+  // Wait for the database connection to establish, then start the app.
+});
 var Person     = require('./models/person');
 
 // ROUTES FOR OUR API
