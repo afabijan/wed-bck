@@ -10,8 +10,6 @@ var app        = express();
 // configure app
 //app.use(morgan('dev')); // log requests to the console
 
-//Read the config and credentials locally
-var configParams = require('./credentials.json');
 
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,8 +24,17 @@ var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000
                 replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } },  };
 
 // read the params from a credentials file OR when using HEROKU use the .env
+// LOCAL SOLUTION
+//var configParams = require('./credentials.json');
 //u = configParams.mongoDBusername;
 //p = configParams.mongoDBpassword;
+
+//USING HEROKU VARIABLES
+// in termina€: heroku config:set var=value
+// # heroku config:set MONUSER=...
+// # heroku config:set MONPWD=...
+// # heroku local
+
 u = process.env.MONUSER;
 p = process.env.MONPWD;
 
