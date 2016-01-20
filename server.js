@@ -51,6 +51,7 @@ conn.once('open', function() {
   // Wait for the database connection to establish, then start the app.
 });
 var Person     = require('./models/person');
+var Itinerary = require('./models/tinerary');
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -70,6 +71,7 @@ router.get('/', function(req, res) {
 	res.json({ message: 'hooray! welcome to our api!' });
 });
 
+// for /people
 // ----------------------------------------------------
 router.route('/people')
 
