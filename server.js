@@ -51,7 +51,7 @@ conn.once('open', function() {
   // Wait for the database connection to establish, then start the app.
 });
 var Person     = require('./models/person');
-var Itinerary = require('./models/tinerary');
+var Itinerary = require('./models/itinerary');
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -159,7 +159,7 @@ router.route('/people/:person_id')
   })
 
 
-	// delete the bear with this id
+	// delete the person with this id
 	.delete(function(req, res) {
 		Person.remove({
 			_id: req.params.person_id
@@ -170,6 +170,67 @@ router.route('/people/:person_id')
 			res.json({ message: 'Successfully deleted' });
 		});
 	});
+
+// Routes for Itinerary
+// GET ITINERARY shoud show all the itineraries  DONE
+// GET ITINERARY/ID should show all the people under that itinerary IDs  DONE
+// DELETE ITINERARY/ID should delete the itinerary under that ID   DONE
+// CReate Itinerary -> should create the itinerary with the set of people given as params
+
+
+
+router.route('/itineraries')
+
+  //GET ALL
+  .get(function(req, res) {
+    Itinerary.find(function(err, itineraries) {
+      if (err)
+        res.send(err);
+
+      res.json(itineraries);
+    });
+  })
+
+
+	// create an ITINERARY (accessed at POST http://localhost:8080/people)
+	.post(function(req, res) {
+
+		var personID =  req.body.personID;         // Find the person that is given it's ID
+
+
+
+
+    // do the actual saving into the database
+		Itinerary.save(function(err) {
+			if (err)
+				res.send(err);
+
+			res.json({ message: 'Itinerary created!' });
+		});
+
+
+	}); //end for routes/itineraries
+
+
+router.route('/itineraries/:it_id')
+  // get the Itinerary with a certain ID
+  .get(function(req, res) {
+    Itinerary.findById(req.params.it_id, function(err, itinerary) {
+      if (err)
+        res.send(err);
+      res.json(itinerary);
+    });
+  })
+  .delete(function(req, res) {
+    Itinerary.remove({
+      _id: req.params.it_id
+    }, function(err, itinerary) {
+      if (err)
+        res.send(err);
+
+      res.json({ message: 'Successfully deleted' });
+    });
+  });
 
 
 // REGISTER OUR ROUTES -------------------------------

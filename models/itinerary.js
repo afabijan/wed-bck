@@ -1,5 +1,5 @@
 var mongoose     = require('mongoose');
-var Person     = require('./models/person');
+var Person     = require('./person');
 var Schema       = mongoose.Schema;
 
 var ItinerarySchema   = new Schema({
