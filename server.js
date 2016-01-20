@@ -194,14 +194,20 @@ router.route('/itineraries')
 
 	// create an ITINERARY (accessed at POST http://localhost:8080/people)
 	.post(function(req, res) {
+    //var sifra = req.body.sifra;
+    //var peopleIds = req.body.ids;
 
-		var personID =  req.body.personID;         // Find the person that is given it's ID
+    //res.json(peopleIds);
 
+
+    var iti = new Itinerary();
+    iti.itTitle = sifra;
+    iti.people = peopleIds;
 
 
 
     // do the actual saving into the database
-		Itinerary.save(function(err) {
+		iti.save(function(err) {
 			if (err)
 				res.send(err);
 
@@ -212,15 +218,59 @@ router.route('/itineraries')
 	}); //end for routes/itineraries
 
 
-router.route('/itineraries/:it_id')
+router.route('/itineraries/:itTitle')
   // get the Itinerary with a certain ID
-  .get(function(req, res) {
-    Itinerary.findById(req.params.it_id, function(err, itinerary) {
-      if (err)
-        res.send(err);
-      res.json(itinerary);
-    });
-  })
+  // .get(function(req, res) {
+  //   Itinerary.findById(req.params.it_id, function(err, itinerary) {
+  //     if (err)
+  //       res.send(err);
+  //     res.json(itinerary);
+  //   });
+  // })
+
+  // returns the objects that match the title (sifra) of the familly
+.get(function(req, res)
+{
+    Itinerary.findOne({'itTitle':req.params.itTitle},'people').lean().exec(function (err, itinerary)
+    {
+        if (err)
+          res.send(err);
+
+          // res.json(itinerary);
+          var x = itinerary;
+
+
+        console.log(typeof x);
+        res.json(x);
+
+        // another find that returns people's data
+        // Person.find({'_id': {$in : x}}, function(err, peopleData) {
+        //   if (err)
+        //     res.send(err);
+        //
+        //     //we reuturn the people data that belong to sifra
+        //     res.json(peopleData);
+        // });
+
+
+
+    }
+);
+}
+  )
+
+
+  //
+  //
+  // Itinerary.findOne({'itTitle':req.params.itTitle}, function(err, itinerary) {
+  //   if (err)
+  //     res.send(err);
+  //
+  //   // we get the people inside itinerary
+  //   var x = itinerary.people;
+  //   console.log(x[0]);
+  //   //r
+
   .delete(function(req, res) {
     Itinerary.remove({
       _id: req.params.it_id

@@ -4,7 +4,7 @@ var Schema       = mongoose.Schema;
 
 var ItinerarySchema   = new Schema({
 	itTitle: String,
-	people: [Person]
+	people: []
 
 });
 
