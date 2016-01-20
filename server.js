@@ -195,15 +195,13 @@ router.route('/itineraries')
 	// create an ITINERARY (accessed at POST http://localhost:8080/people)
 	.post(function(req, res) {
     //var sifra = req.body.sifra;
-    //var peopleIds = req.body.ids;
-
-    //res.json(peopleIds);
+    var body = req.body;
 
 
+    res.json(body);
     var iti = new Itinerary();
-    iti.itTitle = sifra;
-    iti.people = peopleIds;
-
+    iti.itTitle = body.sifra;
+    iti.people = body.peopleIds;
 
 
     // do the actual saving into the database
@@ -237,20 +235,20 @@ router.route('/itineraries/:itTitle')
           res.send(err);
 
           // res.json(itinerary);
-          var x = itinerary;
+          var x = itinerary.people;
 
 
         console.log(typeof x);
-        res.json(x);
+        // res.json(x);
 
-        // another find that returns people's data
-        // Person.find({'_id': {$in : x}}, function(err, peopleData) {
-        //   if (err)
-        //     res.send(err);
-        //
-        //     //we reuturn the people data that belong to sifra
-        //     res.json(peopleData);
-        // });
+        // // another find that returns people's data
+        Person.find({'_id': {$in : x}}, function(err, peopleData) {
+          if (err)
+            res.send(err);
+
+            //we reuturn the people data that belong to sifra
+            res.json(peopleData);
+        });
 
 
 
