@@ -175,7 +175,7 @@ router.route('/people/:person_id')
 // GET ITINERARY shoud show all the itineraries  DONE
 // GET ITINERARY/ID should show all the people under that itinerary IDs  DONE
 // DELETE ITINERARY/ID should delete the itinerary under that ID   DONE
-// CReate Itinerary -> should create the itinerary with the set of people given as params
+// CReate Itinerary -> should create the itinerary with the set of people given as params DONE
 
 
 
