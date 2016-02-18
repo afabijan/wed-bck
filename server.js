@@ -14,7 +14,6 @@ var app        = express();
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 var port     = process.env.PORT || 8080; // set our port
 
 // Set up the mongoDB connection
@@ -52,6 +51,17 @@ conn.once('open', function() {
 });
 var Person     = require('./models/person');
 var Itinerary = require('./models/itinerary');
+
+
+
+app.all('/', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+ });
+
+
+
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -129,12 +139,7 @@ router.route('/people/:person_id')
       Person.findById(req.params.person_id, function(err, person) {
 
           if (err)
-          {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "X-Requested-With");
-            res.send(err);
-          }
-
+              res.send(err);
           if (req.body.firstName)
               person.firstName = req.body.firstName;
           if (req.body.lastName)
@@ -154,8 +159,6 @@ router.route('/people/:person_id')
 
           // save the Person's updated details
           person.save(function(err) {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "X-Requested-With");
               if (err)
                   res.send(err);
 
