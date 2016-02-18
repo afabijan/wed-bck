@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.all('/people', function(req, res){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
+});
 var port     = process.env.PORT || 8080; // set our port
 
 // Set up the mongoDB connection
