@@ -3,6 +3,7 @@
 
 // call the packages we need
 var express    = require('express');
+var cors = require('cors')
 var bodyParser = require('body-parser');
 var app        = express();
 //var morgan     = require('morgan');
@@ -10,6 +11,7 @@ var app        = express();
 // configure app
 //app.use(morgan('dev')); // log requests to the console
 
+app.use(cors());
 
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,13 +54,6 @@ conn.once('open', function() {
 var Person     = require('./models/person');
 var Itinerary = require('./models/itinerary');
 
-
-app.all('*', function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
 
 
 // ROUTES FOR OUR API
