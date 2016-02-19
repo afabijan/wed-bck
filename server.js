@@ -138,8 +138,8 @@ router.route('/people/:person_id')
           if (req.body.lastName)
             person.lastName = req.body.lastName;
           if (req.body.gender)
-            person.gender = req.body.songPersonal;
-          if (req.body.firstName)
+            person.gender = req.body.gender;
+          if (req.body.songPersonal)
             person.songPersonal = req.body.songPersonal;
           if (req.body.songWeds)
             person.songWeds = req.body.songWeds;
